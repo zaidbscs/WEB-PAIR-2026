@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WhatsApp Pair Code</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .box {
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #25D366;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h3>WhatsApp WEB-PAIR</h3>
+  <input id="phone" placeholder="923001234567">
+  <button onclick="pair()">Get Pair Code</button>
+  <p id="result"></p>
+</div>
+
+<script>
+async function pair() {
+  document.getElementById("result").innerText = "Requesting...";
+  const phone = document.getElementById("phone").value;
+
+  const res = await fetch("/pair", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone })
+  });
+
+  const data = await res.json();
+  document.getElementById("result").innerText =
+    data.code || data.message || data.error;
+}
+</script>
+
+</body>
+</html>
